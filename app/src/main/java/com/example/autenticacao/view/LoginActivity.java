@@ -60,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (verificarNulo() == true) {
+                    return;
+                }
                 buscarDados();
                 criarLogin();
             }
@@ -118,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean verificarNulo() {
         if (edtEmail.getText().toString().isEmpty() || edtSenha.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Prencha todos os campos para poder logar!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Prencha todos os campos para poder logar/cadastrar!", Toast.LENGTH_SHORT).show();
             return true;
         } else {
             return false;
