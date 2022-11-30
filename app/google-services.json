@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1061084356566",
+    "project_id": "autenticacao-c68d2",
+    "storage_bucket": "autenticacao-c68d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061084356566:android:a175a4544530751f940e77",
+        "android_client_info": {
+          "package_name": "com.example.autenticacao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061084356566-qjr9n8nltjjj09rjf911p5dia3le1pov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKDbQKJgIJD9DH6H3hYIq_pswtnYCplxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1061084356566-qjr9n8nltjjj09rjf911p5dia3le1pov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
