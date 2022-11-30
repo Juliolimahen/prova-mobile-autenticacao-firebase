@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="#1C1C1C"
-    >
+    android:background="#1C1C1C">
 
     <TextView
         android:id="@+id/textView"
@@ -14,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Cadastro de alunos"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -27,7 +25,7 @@
     <EditText
         android:id="@+id/edtRa"
         android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
@@ -103,7 +101,7 @@
         android:layout_marginBottom="29dp"
         android:text="Alunos Cadastrados"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toTopOf="@+id/lstAlunos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

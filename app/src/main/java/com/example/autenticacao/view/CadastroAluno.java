@@ -1,14 +1,11 @@
 package com.example.autenticacao.view;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +18,7 @@ import android.widget.Toast;
 
 import com.example.autenticacao.R;
 import com.example.autenticacao.view.models.Aluno;
-import com.example.autenticacao.view.models.Usuario;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,7 +48,7 @@ public class CadastroAluno extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_usuario);
+        setContentView(R.layout.activity_cadastro_pessoa);
         inicializarComponentes();
         inicializarFirebase();
         DatabaseReference refAluno = reference.child("aluno");
@@ -184,7 +176,6 @@ public class CadastroAluno extends AppCompatActivity {
         aluno.setNome(Nome.getText().toString().trim());
         aluno.setEndereco(Endereco.getText().toString().trim());
         reference.child(CHILD).child(aluno.getUid()).setValue(aluno);
-        //refAluno.push().setValue(aluno);
         Toast.makeText(this, "Aluno cadastrado com sucesso!!!", Toast.LENGTH_SHORT).show();
         limparCampos();
     }
@@ -207,7 +198,6 @@ public class CadastroAluno extends AppCompatActivity {
         Aluno aluno = new Aluno();
         aluno.setUid(AlunoSelecionado.getUid());
         reference.child(CHILD).child(aluno.getUid()).removeValue();
-        //refAluno.push();
         alert(aluno.getNome() + "foi deletado com sucesso");
         limparCampos();
     }
@@ -234,7 +224,6 @@ public class CadastroAluno extends AppCompatActivity {
         aluno.setEndereco(Endereco.getText().toString().trim());
         reference.child(CHILD).child(aluno.getUid()).setValue(aluno);
         alert(aluno.getNome() + " foi alterado com sucesso");
-        //refAluno.push();
         limparCampos();
     }
 

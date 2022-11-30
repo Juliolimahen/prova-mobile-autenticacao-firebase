@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtLogEmail);
         btnSair = findViewById(R.id.btnLogSair);
         firebaseAuth.signOut();
+        limparCampos();
         btnLogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser != null) {
         } else {
             Toast.makeText(this, "Usuario não logado, Por favor autentique-se!!!", Toast.LENGTH_SHORT).show();
-            firebaseAuth.getInstance();
             limparCampos();
+            firebaseAuth.getInstance();
         }
     }
 
@@ -106,13 +107,11 @@ public class LoginActivity extends AppCompatActivity {
                             //Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             startActivity(new Intent(LoginActivity.this, CadastroAluno.class));
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Falha ao Autenticar!.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });

@@ -53,6 +53,7 @@
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/edtLogSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -66,7 +67,8 @@
         android:layout_marginEnd="40dp"
         android:ems="10"
         android:hint="Senha"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogLogar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtLogEmail" />
