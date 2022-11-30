@@ -1,23 +1,32 @@
 package com.example.autenticacao.view;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.autenticacao.R;
 import com.example.autenticacao.view.models.Aluno;
+import com.example.autenticacao.view.models.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +50,7 @@ public class CadastroAluno extends AppCompatActivity {
     private Aluno AlunoSelecionado;
     private final String CHILD = "aluno";
     private FirebaseAuth firebaseAuth;
+    private Button btnSalvar, btnAtualizar, btnDeletar;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -52,7 +62,41 @@ public class CadastroAluno extends AppCompatActivity {
         DatabaseReference refAluno = reference.child("aluno");
         listarAlunos();
         cliqueList();
-        Alunos.setCacheColorHint(R.color.white);
+
+        btnDeletar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (AlunoSelecionado == null) {
+                    Toast.makeText(CadastroAluno.this, "Selecione um aluno para deletar", Toast.LENGTH_SHORT).show();
+                } else {
+                    deleteAluno();
+                }
+            }
+        });
+
+        btnSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (verificarNulo() == true) {
+                    Toast.makeText(CadastroAluno.this, "Preecha todos os campos para salvar", Toast.LENGTH_SHORT).show();
+                } else {
+                    alunoSalvar();
+                }
+            }
+        });
+
+        btnAtualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (AlunoSelecionado == null) {
+                    Toast.makeText(CadastroAluno.this, "Selecione um aluno para atualizar", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateAluno();
+                }
+            }
+        });
+
     }
 
     private void cliqueList() {
@@ -98,17 +142,11 @@ public class CadastroAluno extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int op = item.getItemId();
-
-        if (op == R.id.menu_novo) {
-            alunoSalvar();
-        } else if (op == R.id.menu_update) {
-            updateAluno();
-        } else if (op == R.id.menu_delete) {
-            deleteAluno();
+        if (op == R.id.menu_delete) {
+            kill();
         } else {
             alert("Opcão invalida");
         }
-
         return true;
     }
 
@@ -124,6 +162,10 @@ public class CadastroAluno extends AppCompatActivity {
         Nome = findViewById(R.id.edtNome);
         Endereco = findViewById(R.id.edtEndereco);
         Alunos = findViewById(R.id.lstAlunos);
+        btnAtualizar = findViewById(R.id.btnAtualizar);
+        btnSalvar = findViewById(R.id.btnSalvar);
+        btnDeletar = findViewById(R.id.btnDelete);
+
     }
 
     private void limparCampos() {
@@ -170,6 +212,20 @@ public class CadastroAluno extends AppCompatActivity {
         limparCampos();
     }
 
+    private void kill() {
+        firebaseAuth.signOut();
+        startActivity(new Intent(CadastroAluno.this, LoginActivity.class));
+    }
+
+    private boolean verificarNulo() {
+
+        if (RA.getText().toString().isEmpty() || Nome.getText().toString().isEmpty() || Endereco.getText().toString().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void updateAluno() {
         Aluno aluno = new Aluno();
         aluno.setUid(AlunoSelecionado.getUid());
@@ -182,13 +238,14 @@ public class CadastroAluno extends AppCompatActivity {
         limparCampos();
     }
 
-    private void alert(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
-        startActivity(new Intent(CadastroAluno.this, MainActivity.class));
+        firebaseAuth.signOut();
+        startActivity(new Intent(CadastroAluno.this, LoginActivity.class));
+    }
+
+    private void alert(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 }
