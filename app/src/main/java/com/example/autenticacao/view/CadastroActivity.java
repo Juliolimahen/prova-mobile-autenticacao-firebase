@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.autenticacao.R;
+import com.example.autenticacao.view.models.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -72,4 +73,5 @@ public class CadastroActivity extends AppCompatActivity {
             usuario.setSenha(edtSenha.getText().toString());
         }
     }
+
 }

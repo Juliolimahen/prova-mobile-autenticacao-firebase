@@ -1,4 +1,4 @@
-package com.example.autenticacao.view;
+package com.example.autenticacao.view.models;
 
 public class Usuario {
 

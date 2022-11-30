@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         btnCadastrar = findViewById(R.id.btnMainCadastrar);
         btnLogar = findViewById(R.id.btnMainLogar);
 
-
         btnSair = findViewById(R.id.btnMainSair);
 
         btnLogar.setOnClickListener(new View.OnClickListener() {
@@ -55,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         btnSair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                onDestroy();
+                finish();
             }
-
         });
     }
 }

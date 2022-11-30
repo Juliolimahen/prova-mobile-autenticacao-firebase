@@ -4,18 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.autenticacao.R;
+import com.example.autenticacao.view.models.Aluno;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +39,8 @@ public class CadastroAluno extends AppCompatActivity {
     private List<Aluno> listALunos = new ArrayList<Aluno>();
     private ArrayAdapter<Aluno> arrayAdapterAluno;
     private Aluno AlunoSelecionado;
-    private final String CHILD = "Aluno";
+    private final String CHILD = "aluno";
+    private FirebaseAuth firebaseAuth;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -48,22 +51,26 @@ public class CadastroAluno extends AppCompatActivity {
         inicializarFirebase();
         DatabaseReference refAluno = reference.child("aluno");
         listarAlunos();
+        cliqueList();
         Alunos.setCacheColorHint(R.color.white);
-        /*Alunos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    }
+
+    private void cliqueList() {
+        Alunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                AlunoSelecionado= (Aluno)adapterView.getItemAtPosition(i);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AlunoSelecionado = (Aluno) adapterView.getItemAtPosition(i);
                 RA.setText(AlunoSelecionado.getRA());
                 Nome.setText(AlunoSelecionado.getNome());
                 Endereco.setText(AlunoSelecionado.getEndereco());
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });*/
-        //DatabaseReference refAluno = reference.child("aluno");
-        //Aluno a = new Aluno("0590/19", "Julio", "Ouro Verde");
-        //refAluno.child("001").setValue(a);
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void listarAlunos() {
@@ -87,31 +94,20 @@ public class CadastroAluno extends AppCompatActivity {
             }
         });
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int idEscolhido = item.getItemId();
+        int op = item.getItemId();
 
-        /*switch (idEscolhido){
-            case R.id.menu_new:
-                newPessoa();
-                break;
-            case R.id.menu_update:
-                   updatePessoa();
-                break;
-            case R.id.menu_delete:
-                deletePessoa();
-                break;
-            default:
-                alert("Opção não identificada");
-                break;
-        }*/
+        if (op == R.id.menu_novo) {
+            alunoSalvar();
+        } else if (op == R.id.menu_update) {
+            updateAluno();
+        } else if (op == R.id.menu_delete) {
+            deleteAluno();
+        } else {
+            alert("Opcão invalida");
+        }
 
         return true;
     }
@@ -141,34 +137,58 @@ public class CadastroAluno extends AppCompatActivity {
             Toast.makeText(this, "Prencha todos os campos para poder salvar!", Toast.LENGTH_SHORT).show();
             return;
         }
-        Aluno a = new Aluno(
-                RA.getText().toString(),
-                Nome.getText().toString(),
-                Endereco.getText().toString()
-        );
-        refAluno.push().setValue(a);
+        Aluno aluno = new Aluno();
+        aluno.setRA(RA.getText().toString().trim());
+        aluno.setNome(Nome.getText().toString().trim());
+        aluno.setEndereco(Endereco.getText().toString().trim());
+        reference.child(CHILD).child(aluno.getUid()).setValue(aluno);
+        //refAluno.push().setValue(aluno);
         Toast.makeText(this, "Aluno cadastrado com sucesso!!!", Toast.LENGTH_SHORT).show();
         limparCampos();
     }
-    private void deleteAleuno() {
+
+    private void alunoSalvar() {
+        if (RA.getText().toString().isEmpty() && Nome.getText().toString().isEmpty() && Endereco.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Prencha todos os campos para poder salvar!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Aluno aluno = new Aluno();
-        aluno.setId(AlunoSelecionado.getId());
-        reference.child(CHILD).child(aluno.getId()).removeValue();
-        alert("objeto deletado com sucesso");
+        aluno.setRA(RA.getText().toString().trim());
+        aluno.setNome(Nome.getText().toString().trim());
+        aluno.setEndereco(Endereco.getText().toString().trim());
+        reference.child(CHILD).child(aluno.getUid()).setValue(aluno);
+        alert(aluno.getNome() + " foi salvo com sucesso");
         limparCampos();
     }
 
-    private void updatePessoa() {
-        Aluno aluno = new Aluno ();
-        aluno.setId(AlunoSelecionado.getId());
+    private void deleteAluno() {
+        Aluno aluno = new Aluno();
+        aluno.setUid(AlunoSelecionado.getUid());
+        reference.child(CHILD).child(aluno.getUid()).removeValue();
+        //refAluno.push();
+        alert(aluno.getNome() + "foi deletado com sucesso");
+        limparCampos();
+    }
+
+    private void updateAluno() {
+        Aluno aluno = new Aluno();
+        aluno.setUid(AlunoSelecionado.getUid());
         aluno.setNome(Nome.getText().toString().trim());
         aluno.setRA(RA.getText().toString().trim());
-        reference.child(CHILD).child(aluno.getId()).setValue(aluno);
+        aluno.setEndereco(Endereco.getText().toString().trim());
+        reference.child(CHILD).child(aluno.getUid()).setValue(aluno);
         alert(aluno.getNome() + " foi alterado com sucesso");
+        //refAluno.push();
         limparCampos();
     }
 
-    private void alert(String msg){
-        Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
+    private void alert(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startActivity(new Intent(CadastroAluno.this, MainActivity.class));
     }
 }

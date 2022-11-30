@@ -1,27 +1,16 @@
-package com.example.autenticacao.view;
+package com.example.autenticacao.view.models;
 
 import java.util.UUID;
 
 public class Aluno {
-    private String Id;
+
+    private String uid;
     private String RA;
-
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
-    }
-
     private String Nome;
     private String Endereco;
 
-    public Aluno(String RA, String nome, String endereco) {
-        this.RA = RA;
-        Nome = nome;
-        Endereco = endereco;
-        this.Id = UUID.randomUUID().toString();
+    public Aluno() {
+        this.uid = UUID.randomUUID().toString();
     }
 
     public String getRA() {
@@ -48,13 +37,18 @@ public class Aluno {
         Endereco = endereco;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     @Override
     public String toString() {
         return RA
                 + " - " + Nome
                 + " - " + Endereco;
-    }
-
-    public Aluno() {
     }
 }
