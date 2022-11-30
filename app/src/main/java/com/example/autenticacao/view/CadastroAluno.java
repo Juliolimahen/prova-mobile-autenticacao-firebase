@@ -230,11 +230,10 @@ public class CadastroAluno extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        firebaseAuth.signOut();
-        startActivity(new Intent(CadastroAluno.this, LoginActivity.class));
+        //startActivity(new Intent(CadastroAluno.this, LoginActivity.class));
     }
 
     private void alert(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 }
