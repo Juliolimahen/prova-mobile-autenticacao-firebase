@@ -3,11 +3,12 @@ package com.example.autenticacao.view;
 public class Usuario {
 
     private String id;
-    private String  nome;
-    private  String email;
-    private  String Senha;
+    private String nome;
+    private String email;
+    private String Senha;
 
-    public Usuario() { }
+    public Usuario() {
+    }
 
     public Usuario(String id, String nome, String email, String senha) {
         this.id = id;

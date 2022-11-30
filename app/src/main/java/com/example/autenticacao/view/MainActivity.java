@@ -6,14 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.autenticacao.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-private Button btnLogar;
-private Button btnCadastrar;
-private Button btnSair;
+    private Button btnLogar;
+    private Button btnCadastrar;
+    private Button btnSair;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,7 @@ private Button btnSair;
         setContentView(R.layout.activity_main);
         btnCadastrar = findViewById(R.id.btnMainCadastrar);
         btnLogar = findViewById(R.id.btnMainLogar);
+
 
         btnSair = findViewById(R.id.btnMainSair);
 

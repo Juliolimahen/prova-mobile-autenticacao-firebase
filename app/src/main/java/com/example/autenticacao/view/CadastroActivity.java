@@ -31,7 +31,7 @@ public class CadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        btnCadastrar = findViewById(R.id.btmCadCadastro);
+        edtSenha = findViewById(R.id.edtCadSenha);
         edtNome = findViewById(R.id.edtCadNome);
         edtEmail = findViewById(R.id.edtCadEmail);
         btnCadastrar = findViewById(R.id.btmCadCadastro);
@@ -52,11 +52,10 @@ public class CadastroActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            /*startActivity(new Intent(CadastroActivity.this, PrincipalActivity.class));*/
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(CadastroActivity.this, PrincipalActivity.class));
                             Toast.makeText(CadastroActivity.this, "Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
+                        } else {
                             Toast.makeText(CadastroActivity.this, "Não foi possivel criar login, tente novamente!", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -64,14 +63,13 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void buscarDados() {
-if (edtNome.getText().toString()=="" || edtEmail.getText().toString()=="" || edtSenha.getText().toString()== ""){
-    Toast.makeText(this, "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show();
-}
-else{
-    usuario = new Usuario();
-    usuario.setNome(edtNome.getText().toString());
-    usuario.setEmail(edtEmail.getText().toString());
-    usuario.setSenha(edtSenha.getText().toString());
-}
+        if (edtNome.getText().toString() == "" || edtEmail.getText().toString() == "" || edtSenha.getText().toString() == "") {
+            Toast.makeText(this, "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show();
+        } else {
+            usuario = new Usuario();
+            usuario.setNome(edtNome.getText().toString());
+            usuario.setEmail(edtEmail.getText().toString());
+            usuario.setSenha(edtSenha.getText().toString());
+        }
     }
 }
